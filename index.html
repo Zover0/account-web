@@ -1,0 +1,189 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Account</title>
+
+
+<!-- CSS -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/form-elements.css">
+<link rel="stylesheet" href="assets/css/style.css">
+
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- Favicon and touch icons -->
+<link rel="shortcut icon" href="assets/ico/favicon.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+<script type="text/javascript" src="basic/js/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+<!-- Top menu -->
+
+<!-- Top content -->
+<div class="top-content" style="padding-top: 50px;"  id="index">
+	
+	<div class="inner-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 text">
+					<h1><strong>查询表单</strong></h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 form-box" style="margin-left: 6.5%;">
+					
+					<div class="registration-form">
+						
+						<div class="form-top" style="width: 1000px;">
+							<div class="form-top-left">
+								<p>Query account:</p>
+								<div style="    margin: 10px;">
+									开始日期：<input type="date" style="margin-right: 50px;     width: 230px;
+									border: 3px solid #ddd;" >
+									结束日期：<input type="date" style="width: 230px;
+									border: 3px solid #ddd;" >
+								</div>
+								<div style="    margin: 10px;">
+									金额筛选：
+									<input type="text" placeholder="金额" style="    margin-right: 20px;"> &lt  account  &lt
+									<input type="text" placeholder="金额" style="    margin-left: 20px;">
+								</div>
+								<div style="    margin: 10px;">
+									备注筛选：
+									<input type="text" placeholder="备注里的关键字">
+									<button type="button" style="float: right; " class="btn btn-next">Query</button>
+								</div>
+							</div>
+							<div class="form-top-right">
+							</div>
+						</div>
+						<div class="form-bottom" style="width: 1000px; height: 500px;">
+							<ul>
+								<li v-for="(item, index) in itemsList" :key="index" @click="showItemDetail(item.itemId)">
+									<div class="i-pic limit">
+										<p class="title fl">{{item.itemName}}</p>
+										<p class="price fl">
+											<b>¥</b>
+											<strong>{{item.price / 100}}</strong>
+										</p>
+										<p class="number fl">
+											销量<span>{{item.sellCounts}}</span>
+										</p>
+									</div>
+								</li>
+							</ul>
+							<div id="example-1" v-for="item in items">
+								<ul>
+								 <li>
+								  {{ item.message }}
+								 </li>
+								</ul>
+							</div>
+							<div id="app">
+								<ul>
+									<li v-if="item in items"></li>
+									{{item}}
+								</ul>
+								<hr>
+								<ul>
+									<li v-for="(student,index) in students">
+									{{index+1}}：{{student.name}} - {{student.age}}</li>
+								</ul>
+								
+							</div>
+
+							
+						</div>
+						
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<!-- Javascript -->
+<script src="assets/js/jquery-1.11.1.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.backstretch.min.js"></script>
+<script src="assets/js/retina-1.1.0.min.js"></script>
+<script src="assets/js/scripts.js"></script>
+
+<!--[if lt IE 10]>
+	<script src="assets/js/placeholder.js"></script>
+<![endif]-->
+
+<script>
+	window.jQuery || document.write('<script src="basic/js/jquery-1.9.min.js"><\/script>');
+</script>
+<script type="text/javascript" src="basic/js/quick_links.js"></script>
+
+<div class="theme-popover-mask"></div>
+<script src="components/VuePaging/zpageNav.js"></script>
+<script type="text/javascript " src="js/app.js"></script>
+<script type="text/javascript">
+	var index = new Vue({
+		el: "#index",
+		data: {
+			page: 1,			// 分页页数
+			pageSize: 20,		// 分页每页显示数量
+			maxPage: 1,			// 总页数
+			total: 1,			// 总记录数
+			items:[53,23,76,14,54,36,28],
+                students:[
+                    {name:'jspang',age:32},
+                    {name:'Panda',age:30},
+                    {name:'PanPaN',age:21},
+                    {name:'King',age:45}
+                    ],
+			itemsList: [
+				{itemName:1,
+					price:1,
+					sellCounts:222}
+			],
+
+			searchType: null,	// 搜索类型，catItems：根据分类id搜索；searchItems：根据关键字搜索
+			catId: 0,			// 分类id
+
+			shopcartItemCounts: 0,	// 购物车中商品的数量
+		},
+		created() {
+
+
+		},
+		methods: {
+		}
+	});
+
+</script>
+
+
+</body>
+
+</html>
