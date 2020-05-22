@@ -27,11 +27,107 @@
 
 <body style="text-align: center;">
 
-    <div style="border: 1px solid red; width: 1000px; height: 1000px;">
-        标题：<input id="title" style="left: ;"/>
-        金额：<input id="money" style="left: ;"/>
-        日期：<input id="date" style="left: ;"/>
-        备注:<textarea id="remark" style="left: ;"></textarea>
+    <div style="border: 1px solid red; width: 1000px; height: 1000px;" id="add">
+        标题：<input id="title" style="float:left;"/>
+        金额：<input id="money" style="float:left;"/>
+        日期：<input id="date" style="float:left;"/>
+        备注:<textarea id="remark" style="float:left;"></textarea>
     </div>
 
+
+<!-- Javascript -->
+<script src="assets/js/jquery-1.11.1.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.backstretch.min.js"></script>
+<script src="assets/js/retina-1.1.0.min.js"></script>
+<script src="assets/js/scripts.js"></script>
+
+<!--[if lt IE 10]>
+	<script src="assets/js/placeholder.js"></script>
+<![endif]-->
+
+<script>
+	window.jQuery || document.write('<script src="basic/js/jquery-1.9.min.js"><\/script>');
+</script>
+<script type="text/javascript" src="basic/js/quick_links.js"></script>
+
+<div class="theme-popover-mask"></div>
+<script src="components/VuePaging/zpageNav.js"></script>
+<script type="text/javascript " src="js/app.js"></script>
+<script type="text/javascript">
+	var add = new Vue({
+		el: "#add",
+		data: {
+			page: 1,			// 分页页数
+			pageSize: 20,		// 分页每页显示数量
+			maxPage: 1,			// 总页数
+			total: 1,			// 总记录数
+			items:[53,23,76,14,54,36,28],
+                students:[
+                    {name:'jspang',age:32},
+                    {name:'Panda',age:30},
+                    {name:'PanPaN',age:21},
+                    {name:'King',age:45}
+                    ],
+			itemsList: [
+				{itemName:1,
+					price:1,
+					sellCounts:222}
+			],
+
+			searchType: null,	// 搜索类型，catItems：根据分类id搜索；searchItems：根据关键字搜索
+			catId: 0,			// 分类id
+
+			shopcartItemCounts: 0,	// 购物车中商品的数量
+		},
+		created() {
+
+
+		},
+		methods: {
+			addAccount() {
+				var serverUrl = app.serverUrl;
+				var userToken = app.getCookie("userToken");
+				var AccountBO = {
+							date: this.date,
+							remark: this.remark,
+							money:this.money
+						};
+				// axios.defaults.withCredentials = true;
+				axios.post(
+					serverUrl+'/addAccount' + AccountBO,
+					{
+						headers:{
+								'userToken':userToken
+						}
+					}
+				
+				)
+					.then(res => {
+						if (res.data.status == 200) {
+							var userInfo = res.data.data;
+							console.log(res.data.data);
+							this.userInfo = {};
+							this.userIsLogin = false;
+
+							app.deleteCookie("user");
+
+							alert("退出成功!");
+							
+						} else {
+							alert(res.data.msg);
+							console.log(res.data.msg);
+						}
+					});
+				},
+
+
+		}
+	});
+
+</script>
+
+
 </body>
+
+

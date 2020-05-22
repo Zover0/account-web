@@ -178,6 +178,43 @@
 
 		},
 		methods: {
+			addAccount() {
+				var serverUrl = app.serverUrl;
+				var userToken = app.getCookie("userToken");
+				var AccountBO = {
+							date: this.date,
+							remark: this.remark,
+							money:this.money
+						};
+				// axios.defaults.withCredentials = true;
+				axios.post(
+					serverUrl+'/addAccount' + AccountBO,
+					{
+						headers:{
+								'userToken':userToken
+						}
+					}
+				
+				)
+					.then(res => {
+						if (res.data.status == 200) {
+							var userInfo = res.data.data;
+							console.log(res.data.data);
+							this.userInfo = {};
+							this.userIsLogin = false;
+
+							app.deleteCookie("user");
+
+							alert("退出成功!");
+							
+						} else {
+							alert(res.data.msg);
+							console.log(res.data.msg);
+						}
+					});
+				},
+
+
 		}
 	});
 
