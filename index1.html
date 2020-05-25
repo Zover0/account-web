@@ -8,15 +8,30 @@
 		content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>记账 - 首页</title>
 
-	<link rel="shortcut icon" href="img/foodie.ico"/>
+	
+	<!-- CSS -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/css/form-elements.css">
+	<link rel="stylesheet" href="assets/css/style.css">
 
-	<link href="AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
-	<link href="AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
-	<link href="basic/css/demo.css" rel="stylesheet" type="text/css" />
-	<link href="css/hmstyle.css" rel="stylesheet" type="text/css" />
-	<link href="css/skin.css" rel="stylesheet" type="text/css" />
-	<link href="css/lee.css" rel="stylesheet" type="text/css" />
-	<!-- <link href="components/mloading/jquery.mloading.css" rel="stylesheet" type="text/css" /> -->
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- Favicon and touch icons -->
+	<link rel="shortcut icon" href="assets/ico/favicon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+	<script type="text/javascript" src="basic/js/jquery-1.7.min.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
 
 	<script src="AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 	<!-- <script src="AmazeUI-2.4.2/assets/js/amazeui.js"></script> -->
@@ -27,12 +42,30 @@
 
 <body style="text-align: center;">
 
-    <div style="border: 1px solid red; width: 1000px; height: 1000px;" id="add">
-        标题：<input id="title" style="float:left;"/>
-        金额：<input id="money" style="float:left;"/>
-        日期：<input id="date" style="float:left;"/>
-        备注:<textarea id="remark" style="float:left;"></textarea>
-    </div>
+	<div class="inner-bg">
+		<div class="container">
+			
+			<div class="row">
+				<div class="col-sm-6 form-box" style="margin-left: 6.5%;">
+					
+					<div class="registration-form">
+						<div class="form-top" style="width: 1000px;">
+							<div class="form-top-left">
+								<div style="border: 1px solid red; width: 1000px; height: 1000px;" id="add">
+									日期：<input id="date" style="float:left;"/>
+									类型：<input id="type" style="float:left;"/>
+									金额：<input id="money" style="float:left;"/>
+									备注:<textarea id="remark" style="float:left;"></textarea>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		
+		</div>
+	</div>
 
 
 <!-- Javascript -->
@@ -54,31 +87,14 @@
 <div class="theme-popover-mask"></div>
 <script src="components/VuePaging/zpageNav.js"></script>
 <script type="text/javascript " src="js/app.js"></script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	var add = new Vue({
 		el: "#add",
 		data: {
-			page: 1,			// 分页页数
-			pageSize: 20,		// 分页每页显示数量
-			maxPage: 1,			// 总页数
-			total: 1,			// 总记录数
-			items:[53,23,76,14,54,36,28],
-                students:[
-                    {name:'jspang',age:32},
-                    {name:'Panda',age:30},
-                    {name:'PanPaN',age:21},
-                    {name:'King',age:45}
-                    ],
-			itemsList: [
-				{itemName:1,
-					price:1,
-					sellCounts:222}
-			],
-
-			searchType: null,	// 搜索类型，catItems：根据分类id搜索；searchItems：根据关键字搜索
-			catId: 0,			// 分类id
-
-			shopcartItemCounts: 0,	// 购物车中商品的数量
+			type:null,
+			date:null,
+			money:null,
+			remark:null,
 		},
 		created() {
 
@@ -90,6 +106,7 @@
 				var userToken = app.getCookie("userToken");
 				var AccountBO = {
 							date: this.date,
+							type: this.type,
 							remark: this.remark,
 							money:this.money
 						};
@@ -125,7 +142,7 @@
 		}
 	});
 
-</script>
+</script> -->
 
 
 </body>

@@ -1,0 +1,318 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Account</title>
+
+
+<!-- CSS -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/form-elements.css">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- Favicon and touch icons -->
+<link rel="shortcut icon" href="assets/ico/favicon.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.9/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+<!-- Top menu -->
+
+<!-- Top content -->
+<div class="top-content"   id="index">
+	<div class="menu-hd" v-show="!userIsLogin" style="float: left; margin-left: 10rem; ">
+		<a href="login.html" style="color: aqua;">请登录</a>
+	</div>
+	<div class="menu-hd" v-show="userIsLogin" style="float: left; margin-left: 10rem; ">
+		<span style="color: aqua; margin-right: 5rem;">欢迎，{{userInfo.name}}</span>
+		<span style="color: aqua; cursor:pointer;" @click="outLogin">退出登录</span>
+	</div>
+
+	<div class="inner-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 text">
+					<h1><strong>查询表单</strong></h1>
+					<h3 style="color: aqua; text-decoration:underline; cursor:pointer;" @click="goToAddAccount"><strong>前往登记</strong></h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 form-box" style="margin-left: 6.5%;">
+					
+					<div class="registration-form">
+						
+						<div class="form-top" style="width: 1000px;">
+							<div class="form-top-left">
+								<p>Query account:</p>
+								<div style="    margin: 10px;">
+									开始日期：<input type="date" style="margin-right: 50px;     width: 230px;
+									border: 3px solid #ddd;" v-model="query.startTime" >
+									结束日期：<input type="date" style="width: 230px;
+									border: 3px solid #ddd;" v-model="query.endTime" >
+								</div>
+								<div style="    margin: 10px;">
+									金额筛选：
+									<input type="text" placeholder="金额" v-model="query.startMoney"  style="    margin-right: 20px;"> &lt  account  &lt
+									<input type="text" placeholder="金额" v-model="query.endMoney"  style="    margin-left: 20px;">
+								</div>
+								<div style="    margin: 10px;">
+									备注筛选：
+									<input type="text" placeholder="备注里的关键字" v-model="query.remark" >
+									<button type="button" style="float: right; "  class="btn btn-next" @click="queryAccount" >Query</button>
+								</div>
+
+
+
+							</div>
+							<div class="form-top-right">
+							</div>
+						</div>
+						<div class="form-bottom" style="width: 1000px; height: 500px;">
+
+							<table style="margin-left: 5rem;">
+								<tr>
+								  <th style="width: 10rem;">序号</th>
+								  <th style="width: 30rem;">时间</th>
+								  <th style="width: 10rem;">金额</th>
+								  <th style="width: 50rem;">备注</th>
+								  <th style="width: 10rem;">操作</th>
+								</tr>
+								<tr v-for="(item,index) in result">
+								  <td>{{index+1}}</td>
+								  <td>
+									{{item.date}}
+								  </td>
+								  <td>
+									￥{{item.money/100}}
+								  </td>
+								  <td>
+									{{item.remark}}
+								  </td>
+								  <td>
+									<span @click="deleteAccount(item.id)"
+									style="color: red; text-decoration:underline; cursor:pointer;"
+									>删除</span>
+								  </td>
+								</tr>
+							  </table>
+							  <!-- 分页 start-->
+								<!-- <div class="wrap" id="wrap">
+									<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+										v-bind:max-page="maxPage"  v-on:pagehandler="doPaging">
+									</zpagenav>
+								</div> -->
+						
+							
+						</div>
+						
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<!-- Javascript -->
+<script src="assets/js/jquery-1.11.1.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.backstretch.min.js"></script>
+<script src="assets/js/retina-1.1.0.min.js"></script>
+<script src="assets/js/scripts.js"></script>
+
+<!--[if lt IE 10]>
+	<script src="assets/js/placeholder.js"></script>
+<![endif]-->
+
+<script>
+	window.jQuery || document.write('<script src="basic/js/jquery-1.9.min.js"><\/script>');
+</script>
+<script type="text/javascript" src="basic/js/quick_links.js"></script>
+
+<div class="theme-popover-mask"></div>
+<script src="components/VuePaging/zpageNav.js"></script>
+<script type="text/javascript " src="js/app.js"></script>
+<script type="text/javascript">
+	var index = new Vue({
+		el: "#index",
+		data: {
+			query:{
+				startTime:null,
+				endTime:null,
+				startMoney:null,
+				endMoney:null,
+				remark:null,
+				page: 1, // 分页页数
+				pageSize: 10, // 分页每页显示数量
+				maxPage: 1, // 总页数
+				total: 1, // 总记录数
+			},
+			result:[],
+			tableTh: {//表头的描述信息
+			c1: {
+			title: "日期", //还可以增加其他描述，比如width等
+			},
+			c2: {
+			title: "金额",
+			},
+			c3: {
+			title: "备注",
+			}
+      },
+			
+		},
+		created() {
+			this.judgeUserLoginStatus();
+			this.queryAccount();
+
+		},
+		methods: {
+				queryAccount() {
+				var serverUrl = app.serverUrl;
+				// var userToken = app.getCookie("userToken");
+				// axios.defaults.withCredentials = true;
+				axios.post(
+					serverUrl+'/account/queryAccount' ,this.query,
+					{
+						headers:{
+								'userToken':this.userInfo.userToken
+						}
+					}
+				
+				)
+					.then(res => {
+						if (res.data.status == 200) {
+							this.result = res.data.data;
+							// console.log(res.data.data);
+
+							// alert("查询成功!");
+						} else {
+							alert(res.data.msg);
+							console.log(res.data.msg);
+						}
+					});
+
+				},goToAddAccount() {
+					window.location.href = "addAccount.html";
+				},
+				deleteAccount(id) {
+				var bool = window.confirm("确认删除该记录吗？");
+					if (!bool) {
+						return;
+					}
+				var serverUrl = app.serverUrl;
+				// var userToken = app.getCookie("userToken");
+				// axios.defaults.withCredentials = true;
+				axios.post(
+					serverUrl+'/account/deleteAccount?id='+id,
+					{
+						headers:{
+								'userToken':this.userInfo.userToken
+						}
+					}
+				
+				)
+					.then(res => {
+						if (res.data.status == 200) {
+							this.result = res.data.data;
+							// console.log(res.data.data);
+
+							alert("删除成功!");
+							this.queryAccount();
+						} else {
+							alert(res.data.msg);
+							console.log(res.data.msg);
+						}
+					});
+
+				},goToAddAccount() {
+					window.location.href = "addAccount.html";
+				},
+				// 通过cookie判断用户是否登录
+			judgeUserLoginStatus() {
+					var userCookie = app.getCookie("userToken");
+					if (
+						userCookie != null &&
+						userCookie != undefined &&
+						userCookie != ""
+					) {
+						var userInfoStr = decodeURIComponent(userCookie);
+						// console.log(userInfoStr);
+						if (
+							userInfoStr != null &&
+							userInfoStr != undefined &&
+							userInfoStr != ""
+						) {
+							var userInfo = JSON.parse(userInfoStr);
+							// 判断是否是一个对象
+							if ( typeof(userInfo)  == "object" ) {
+								this.userIsLogin = true;
+								// console.log(userInfo);
+								this.userInfo = userInfo;
+							} else {
+								this.userIsLogin = false;
+								this.userInfo = {};
+							}
+						}
+					} else {
+						this.userIsLogin = false;
+						this.userInfo = {};
+						alert("请先登录!");
+						window.location.href = "login.html";
+					}
+			},
+			outLogin(){
+				var serverUrl = app.serverUrl;
+
+				axios.post(
+					serverUrl+'/user/outLogin',
+				)
+					.then(res => {
+						if (res.data.status == 200) {
+							this.result = res.data.data;
+							// console.log(res.data.data);
+
+							alert("退出登录成功!");
+							window.location.href = "login.html";
+
+						} else {
+							alert(res.data.msg);
+							console.log(res.data.msg);
+						}
+					});
+
+			}
+
+
+
+		}
+	});
+
+</script>
+
+
+</body>
+
+</html>
